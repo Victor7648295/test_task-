@@ -1,0 +1,4 @@
+CREATE TABLE user (
+    id_user BIGINT NOT NUll AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR (255)
+);

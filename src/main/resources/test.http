@@ -1,0 +1,31 @@
+POST http://localhost:8888/v1.0/user/add
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Petya"
+
+}
+
+###
+
+GET http://localhost:8888/v1.0/user/all
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8888/v1.0/user/update
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Vasya"
+
+}
+
+###
+
+DELETE http://localhost:8888/v1.0/user/delete/2
+Content-Type: application/json
+
+###
