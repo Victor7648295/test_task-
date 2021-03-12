@@ -7,7 +7,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.service.UserService;
-import com.example.demo.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.example.demo.util.WebUtil.getFullRequestUri;
 
 @RestController
 @RequestMapping(path = UserController.BASE_URL)
@@ -44,7 +45,7 @@ public class UserController {
     public ResponseEntity<Void> addUser(@RequestBody @Valid UserDto userDto){
         User user =  converter.convert(userDto);
         userService.addUser(user);
-        LOG.debug("In User Controller - Received POST request to add new user, request URI:[{}] ", WebUtil.getFullRequestUri());
+        LOG.debug("In User Controller - Received POST request to add new user, request URI:[{}] ", getFullRequestUri());
         return new  ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -52,7 +53,7 @@ public class UserController {
     public void deleteUser(@PathVariable("id") Long id){
         if(id != null) {
             userService.deleteUser(id);
-            LOG.debug("Received Delete request to delete user, request URI:[{}] ", WebUtil.getFullRequestUri());
+            LOG.debug("Received Delete request to delete user, request URI:[{}] ", getFullRequestUri());
         }else{
             throw new ResourceNotFoundException("In User Controller - Received Delete request to delete user where id = null");
         }
@@ -62,7 +63,7 @@ public class UserController {
     public ResponseEntity<Void> updateUser(@RequestBody @Valid UserDto userdto){
         User user = converter.convert(userdto);
         userService.updateUser(user);
-        LOG.debug("In User Controller - Received PUT request to update user, request URI:[{}] ", WebUtil.getFullRequestUri());
+        LOG.debug("In User Controller - Received PUT request to update user, request URI:[{}] ", getFullRequestUri());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
