@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -9,8 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,6 +58,22 @@ class UserServiceImplTest {
         when(repository.findAll()).thenReturn(expected);
         List<User> result = repository.findAll();
         assertThat(expected).containsExactlyElementsOf(result);
+    }
+
+    @Test
+    void shouldDeleteUserById(){
+        User user = createUser(USER_ID_FIRST,USER_NAME_FIRST);
+        when(repository.findById(USER_ID_FIRST)).thenReturn(Optional.of(user));
+        Optional<User> expected = repository.findById(USER_ID_FIRST);
+        repository.deleteById(expected.get().getId());
+        verify(repository).findById(USER_ID_FIRST);
+        verify(repository).deleteById(USER_ID_FIRST);
+    }
+
+    @Test
+    void shouldThrowExceptionIfNoUserWithId(){
+        when(repository.findById(eq(USER_ID_FIRST))).thenThrow(new ResourceNotFoundException("exception"));
+        assertThrows(ResourceNotFoundException.class,() -> repository.findById(USER_ID_FIRST));
     }
 
     private User createUser(Long id ,String name ){

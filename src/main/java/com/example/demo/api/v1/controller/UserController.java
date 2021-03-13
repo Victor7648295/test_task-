@@ -12,11 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.util.WebUtil.getFullRequestUri;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(path = UserController.BASE_URL)
@@ -42,11 +44,11 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addUser(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<Void> addUser(@Valid @RequestBody UserDto userDto){
         User user =  converter.convert(userDto);
         userService.addUser(user);
         LOG.debug("In User Controller - Received POST request to add new user, request URI:[{}] ", getFullRequestUri());
-        return new  ResponseEntity<>(HttpStatus.CREATED);
+        return new  ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

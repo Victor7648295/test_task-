@@ -19,8 +19,8 @@ PUT http://localhost:8888/v1.0/user/update
 Content-Type: application/json
 
 {
-  "id": 2,
-  "name": "Vasya"
+  "id": 1,
+  "name": "1Vasya"
 
 }
 

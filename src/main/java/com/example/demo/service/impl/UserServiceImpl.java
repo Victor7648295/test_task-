@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
             userRepository.saveAndFlush(user);
             LOG.debug("In userService -  Successfully update user with id " + user.getId());
         } else {
-            throw new ResourceNotFoundException("In userService - Failed to update user with ID:" + user.getId());
+            throw new ResourceNotFoundException("In userService - Failed to update user,not found with ID:" + user.getId());
         }
     }
 
@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getUserById(Long id ){
+        return userRepository.findById(id);
     }
 
 }
